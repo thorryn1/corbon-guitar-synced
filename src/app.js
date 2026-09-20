@@ -27,9 +27,15 @@ video.style.bottom = posisiBottom;
 
 
     const volBtn = document.querySelector(".volume-bar__icon-button");
-const volRect = volBtn.getBoundingClientRect();
-const jarakDariKanan = window.innerWidth - volRect.left;
-video.style.right = (jarakDariKanan + 360) + "px";
+if (volBtn) {
+    const volRect = volBtn.getBoundingClientRect();
+    const jarakDariKanan = window.innerWidth - volRect.left;
+    video.style.right = (jarakDariKanan + 360) + "px";
+    videoGlow.style.right = (jarakDariKanan + 360) + "px";
+} else {
+    video.style.right = "360px";
+    videoGlow.style.right = "360px";
+}
 
 
     // sistem loop dan video
@@ -45,7 +51,6 @@ videoGlow.style.zIndex = "9999";   // bisa lebih tinggi dari video utama
 videoGlow.style.width = "9.6vw";
 videoGlow.style.aspectRatio = "1/1";
 videoGlow.style.bottom = posisiBottom;
-videoGlow.style.right = (jarakDariKanan + 360) + "px";
 videoGlow.style.opacity = "0";    // ← default: transparan (nggak keliatan)
     document.body.appendChild(video);
     document.body.appendChild(videoGlow);
@@ -122,19 +127,17 @@ const fast = 5.0;
         }
     });
 
-    function updatePosition() {
+   function updatePosition() {
+    if (!volBtn) return;
     const tinggiPlayer = playerBar.offsetHeight;
     const volRect = volBtn.getBoundingClientRect();
     const jarakDariKanan = window.innerWidth - volRect.left;
-
-   const posisiBottom = (tinggiPlayer - 92) + "px";
-const posisiRight = (jarakDariKanan + 219) + "px";
-
+    const posisiBottom = (tinggiPlayer - 29) + "px";
+    const posisiRight = (jarakDariKanan + 360) + "px";
     video.style.bottom = posisiBottom;
     video.style.right = posisiRight;
     videoGlow.style.bottom = posisiBottom;
     videoGlow.style.right = posisiRight;
-    
 }
 setInterval(updatePosition, 100);
 
