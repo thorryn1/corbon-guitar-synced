@@ -22,7 +22,7 @@ videoGlow.src = videoGlow_link;
     //dynamic posisi
     const playerBar = document.querySelector(".Root__now-playing-bar");
     const tinggiPlayer = playerBar.offsetHeight;
-    const posisiBottom = (tinggiPlayer - 92) + "px";
+    const posisiBottom = (tinggiPlayer - 113) + "px";
 video.style.bottom = posisiBottom;
 
 const volBtn = document.querySelector(".volume-bar__icon-button");
