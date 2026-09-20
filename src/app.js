@@ -25,13 +25,12 @@ videoGlow.src = videoGlow_link;
     const posisiBottom = (tinggiPlayer - 92) + "px";
 video.style.bottom = posisiBottom;
 
-
-    const volBtn = document.querySelector(".volume-bar__icon-button");
+const volBtn = document.querySelector(".volume-bar__icon-button");
 if (volBtn) {
     const volRect = volBtn.getBoundingClientRect();
     const jarakDariKanan = window.innerWidth - volRect.left;
-    video.style.right = (jarakDariKanan + 360) + "px";
-    videoGlow.style.right = (jarakDariKanan + 360) + "px";
+    video.style.right = (jarakDariKanan + 219) + "px";
+    videoGlow.style.right = (jarakDariKanan + 219) + "px";
 } else {
     video.style.right = "360px";
     videoGlow.style.right = "360px";
@@ -128,12 +127,16 @@ const fast = 5.0;
     });
 
    function updatePosition() {
-    if (!volBtn) return;
+    if (!volBtn) {
+        video.style.right = "360px";
+        videoGlow.style.right = "360px";
+        return;
+    }
     const tinggiPlayer = playerBar.offsetHeight;
     const volRect = volBtn.getBoundingClientRect();
     const jarakDariKanan = window.innerWidth - volRect.left;
-    const posisiBottom = (tinggiPlayer - 92) + "px";
-    const posisiRight = (jarakDariKanan + 360) + "px";
+    const posisiBottom = (tinggiPlayer - 113) + "px";
+    const posisiRight = (jarakDariKanan + 219) + "px";
     video.style.bottom = posisiBottom;
     video.style.right = posisiRight;
     videoGlow.style.bottom = posisiBottom;
