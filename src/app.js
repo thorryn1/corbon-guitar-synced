@@ -22,7 +22,7 @@ videoGlow.src = videoGlow_link;
     //dynamic posisi
     const playerBar = document.querySelector(".Root__now-playing-bar");
     const tinggiPlayer = playerBar.offsetHeight;
-    const posisiBottom = (tinggiPlayer - 29) + "px";
+    const posisiBottom = (tinggiPlayer - 92) + "px";
 video.style.bottom = posisiBottom;
 
 
@@ -132,7 +132,7 @@ const fast = 5.0;
     const tinggiPlayer = playerBar.offsetHeight;
     const volRect = volBtn.getBoundingClientRect();
     const jarakDariKanan = window.innerWidth - volRect.left;
-    const posisiBottom = (tinggiPlayer - 29) + "px";
+    const posisiBottom = (tinggiPlayer - 92) + "px";
     const posisiRight = (jarakDariKanan + 360) + "px";
     video.style.bottom = posisiBottom;
     video.style.right = posisiRight;
