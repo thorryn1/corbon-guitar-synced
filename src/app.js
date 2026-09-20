@@ -22,7 +22,7 @@ videoGlow.src = videoGlow_link;
     //dynamic posisi
     const playerBar = document.querySelector(".Root__now-playing-bar");
     const tinggiPlayer = playerBar.offsetHeight;
-    const posisiBottom = (tinggiPlayer - 113) + "px";
+    const posisiBottom = (tinggiPlayer - 111) + "px";
 video.style.bottom = posisiBottom;
 
 const volBtn = document.querySelector(".volume-bar__icon-button");
@@ -135,14 +135,14 @@ const fast = 5.0;
     const tinggiPlayer = playerBar.offsetHeight;
     const volRect = volBtn.getBoundingClientRect();
     const jarakDariKanan = window.innerWidth - volRect.left;
-    const posisiBottom = (tinggiPlayer - 113) + "px";
+    const posisiBottom = (tinggiPlayer - 111) + "px";
     const posisiRight = (jarakDariKanan + 219) + "px";
     video.style.bottom = posisiBottom;
     video.style.right = posisiRight;
     videoGlow.style.bottom = posisiBottom;
     videoGlow.style.right = posisiRight;
 }
-//setInterval(updatePosition, 100);
+setInterval(updatePosition, 100);
 
     async function fetchAudioData() {
         const uri = Spicetify.Player.data?.item?.uri;
