@@ -1,4 +1,5 @@
 # Corbon Guitar Synced
+credit : CREDITS.md
 
 A Spicetify extension that displays a floating guitar video synced with the song's BPM. Inspired by **Corbon Amodio**.
 
