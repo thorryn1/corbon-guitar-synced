@@ -139,7 +139,7 @@ const fast = 5.0;
     videoGlow.style.bottom = posisiBottom;
     videoGlow.style.right = posisiRight;
 }
-setInterval(updatePosition, 100);
+//setInterval(updatePosition, 100);
 
     async function fetchAudioData() {
         const uri = Spicetify.Player.data?.item?.uri;
