@@ -1,5 +1,4 @@
 # Corbon Guitar Synced
-credit : CREDITS.md
 
 A Spicetify extension that displays a floating guitar video synced with the song's BPM. Inspired by **Corbon Amodio**.
 
@@ -33,3 +32,16 @@ A Spicetify extension that displays a floating guitar video synced with the song
    ```bash
    spicetify config extensions corbon-guitar-synced.js
    spicetify apply
+
+# CREDITS
+
+## Inspiration
+- **Corbon Amodio** — Indie-pop musician from South Africa/London. This project is inspired by his music and aesthetic.
+  - Spotify: [Corbon Amodio](https://open.spotify.com/intl-id/artist/7tYRwBffjJ0FiLIkPTCGMQ)
+  - Guitar Video Source: https://youtu.be/mLhsdqsbBDs?si=VjI9QA2SDaO0sOcI
+
+## Libraries & Tools
+- **Spicetify** — Spotify extension framework
+- **FFmpeg** — Video encoding
+- **After Effects** — Video rendering
+
