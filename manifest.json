@@ -1,0 +1,10 @@
+{
+    "name": "Corbon Guitar Synced",
+    "description": "Corbon Amodio Playing a Guitar video that syncs with song BPM. Tekan Ctrl+D untuk toggle.",
+    "main": "dist/corbon-guitar-synced.js",
+    "readme": "README.md",
+    "authors": [
+        { "name": "Thorryn", "url": "https://github.com/thorryn1" }
+    ],
+    "tags": ["guitar", "bpm", "visualizer"]
+}

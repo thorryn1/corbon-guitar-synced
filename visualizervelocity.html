@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Beat Visualizer</title>
+    <style>
+        body {
+            background: #111;
+            color: #fff;
+            font-family: sans-serif;
+            padding: 20px;
+        }
+        .control {
+            margin: 15px 0;
+        }
+        label {
+            display: inline-block;
+            width: 200px;
+        }
+        input[type="range"] {
+            width: 300px;
+        }
+        canvas {
+            border: 1px solid #333;
+            margin-top: 20px;
+        }
+        video {
+            border: 1px solid #333;
+            margin-top: 20px;
+            width: 200px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Beat Visualizer</h1>
+
+    <div class="control">
+        <label>BPM:</label>
+        <input type="range" id="bpm" min="60" max="200" value="120">
+        <span id="bpmValue">120</span>
+    </div>
+
+    <div class="control">
+        <label>Slow (pas beat):</label>
+        <input type="range" id="slow" min="0.1" max="1.5" step="0.05" value="0.3">
+        <span id="slowValue">0.3</span>
+    </div>
+
+    <div class="control">
+        <label>Fast (di antara beat):</label>
+        <input type="range" id="fast" min="1" max="4" step="0.1" value="2">
+        <span id="fastValue">2</span>
+    </div>
+
+    <div class="control">
+        <label>Sharpness (pangkat):</label>
+        <input type="range" id="power" min="1" max="30" step="1" value="8">
+        <span id="powerValue">8</span>
+    </div>
+
+    <canvas id="graph" width="800" height="200"></canvas>
+
+    <video id="video" src="assets/CorbonPlayGuitar_fixed.webm" loop muted autoplay></video>
+
+    <script>
+        const bpmSlider = document.getElementById("bpm");
+        const slowSlider = document.getElementById("slow");
+        const fastSlider = document.getElementById("fast");
+        const powerSlider = document.getElementById("power");
+        const bpmValue = document.getElementById("bpmValue");
+        const slowValue = document.getElementById("slowValue");
+        const fastValue = document.getElementById("fastValue");
+        const powerValue = document.getElementById("powerValue");
+        const video = document.getElementById("video");
+        const canvas = document.getElementById("graph");
+        const ctx = canvas.getContext("2d");
+
+        bpmSlider.addEventListener("input", () => {
+            bpmValue.textContent = bpmSlider.value;
+        });
+        slowSlider.addEventListener("input", () => {
+            slowValue.textContent = slowSlider.value;
+        });
+        fastSlider.addEventListener("input", () => {
+            fastValue.textContent = fastSlider.value;
+        });
+        powerSlider.addEventListener("input", () => {
+            powerValue.textContent = powerSlider.value;
+        });
+
+        function loop() {
+            const bpm = Number(bpmSlider.value);
+            const slow = Number(slowSlider.value);
+            const fast = Number(fastSlider.value);
+            const power = Number(powerSlider.value);
+
+            const beatInterval = 60000 / bpm;
+            const phase = (performance.now() % beatInterval) / beatInterval;
+            const beat = Math.pow(1 - phase, power);
+
+            // Velocity: pas beat = slow, di antara beat = fast
+            const bpmFactor = bpm / 120;
+            const rate = bpmFactor * (slow + (1 - beat) * (fast - slow));
+            video.playbackRate = Math.max(0.1, rate);
+
+            drawGraph(phase, power, slow, fast, beat);
+
+            requestAnimationFrame(loop);
+        }
+
+        function drawGraph(phase, power, slow, fast, beat) {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = "#111";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Grafik velocity
+            ctx.beginPath();
+            ctx.strokeStyle = "#0f0";
+            ctx.lineWidth = 2;
+            for (let i = 0; i < canvas.width; i++) {
+                const p = i / canvas.width;
+                const b = Math.pow(1 - p, power);
+                const r = slow + (1 - b) * (fast - slow);
+                const y = canvas.height - (r / 4) * canvas.height;
+                if (i === 0) ctx.moveTo(i, y);
+                else ctx.lineTo(i, y);
+            }
+            ctx.stroke();
+
+            // Garis phase sekarang
+            ctx.beginPath();
+            ctx.strokeStyle = "#f00";
+            ctx.lineWidth = 2;
+            const xNow = phase * canvas.width;
+            ctx.moveTo(xNow, 0);
+            ctx.lineTo(xNow, canvas.height);
+            ctx.stroke();
+
+            // Teks playbackRate
+            ctx.fillStyle = "#fff";
+            ctx.font = "14px sans-serif";
+            ctx.fillText("playbackRate: " + video.playbackRate.toFixed(2), 10, 20);
+        }
+
+        loop();
+    </script>
+</body>
+</html>

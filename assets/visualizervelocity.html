@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Beat Visualizer</title>
+    <style>
+        body {
+            background: #111;
+            color: #fff;
+            font-family: sans-serif;
+            padding: 20px;
+        }
+        .control {
+            margin: 15px 0;
+        }
+        label {
+            display: inline-block;
+            width: 200px;
+        }
+        input[type="range"] {
+            width: 300px;
+        }
+        canvas {
+            border: 1px solid #333;
+            margin-top: 20px;
+        }
+        video {
+            border: 1px solid #333;
+            margin-top: 20px;
+            width: 200px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Beat Visualizer</h1>
+
+    <div class="control">
+        <label>BPM:</label>
+        <input type="range" id="bpm" min="60" max="200" value="120">
+        <span id="bpmValue">120</span>
+    </div>
+
+    <div class="control">
+        <label>Spike Strength:</label>
+        <input type="range" id="spike" min="0" max="10" step="0.1" value="1.2">
+        <span id="spikeValue">1.2</span>
+    </div>
+
+    <div class="control">
+        <label>Sharpness (pangkat):</label>
+        <input type="range" id="power" min="1" max="30" step="1" value="8">
+        <span id="powerValue">8</span>
+    </div>
+
+    <canvas id="graph" width="800" height="200"></canvas>
+
+    <video id="video" src="assets/CorbonPlayGuitar_fixed.webm" loop muted autoplay></video>
+
+   <script>
+    const bpmSlider = document.getElementById("bpm");
+    const spikeSlider = document.getElementById("spike");
+    const powerSlider = document.getElementById("power");
+    const bpmValue = document.getElementById("bpmValue");
+    const spikeValue = document.getElementById("spikeValue");
+    const powerValue = document.getElementById("powerValue");
+    const video = document.getElementById("video");
+    const canvas = document.getElementById("graph");
+    const ctx = canvas.getContext("2d");
+
+    bpmSlider.addEventListener("input", () => {
+        bpmValue.textContent = bpmSlider.value;
+    });
+    spikeSlider.addEventListener("input", () => {
+        spikeValue.textContent = spikeSlider.value;
+    });
+    powerSlider.addEventListener("input", () => {
+        powerValue.textContent = powerSlider.value;
+    });
+
+    function loop() {
+        const bpm = Number(bpmSlider.value);
+        const spike = Number(spikeSlider.value);
+        const power = Number(powerSlider.value);
+
+        const beatInterval = 60000 / bpm;
+        const phase = (performance.now() % beatInterval) / beatInterval;
+        const beat = Math.pow(1 - phase, power);
+
+        video.playbackRate = 1 + (beat * spike);
+        drawGraph(phase, power);
+
+        requestAnimationFrame(loop);
+    }
+
+    function drawGraph(phase, power) {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = "#111";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        // Grafik spike
+        ctx.beginPath();
+        ctx.strokeStyle = "#0f0";
+        ctx.lineWidth = 2;
+        for (let i = 0; i < canvas.width; i++) {
+            const p = i / canvas.width;
+            const b = Math.pow(1 - p, power);
+            const y = canvas.height - (b * canvas.height * 0.8) - 20;
+            if (i === 0) ctx.moveTo(i, y);
+            else ctx.lineTo(i, y);
+        }
+        ctx.stroke();
+
+        // Garis phase sekarang
+        ctx.beginPath();
+        ctx.strokeStyle = "#f00";
+        ctx.lineWidth = 2;
+        const xNow = phase * canvas.width;
+        ctx.moveTo(xNow, 0);
+        ctx.lineTo(xNow, canvas.height);
+        ctx.stroke();
+    }
+
+    loop();
+</script>
+</body>
+</html>

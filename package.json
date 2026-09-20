@@ -1,0 +1,7 @@
+{
+    "name": "corbon-guitar-synced",
+    "version": "1.0.0",
+    "scripts": {
+        "build-local": "spicetify-creator --out=dist --minify"
+    }
+}
